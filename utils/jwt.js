@@ -8,7 +8,7 @@ const createToken = (user, res) => {
   };
 
   const token = jwt.sign(usuarioParaToken, SECRET_KEY_JWT, { expiresIn: '1h' });
-  res.cookie('pupysSS', token, { httpOnly: false, secure: false, maxAge: 3600000, path: '/' });
+  res.cookie('pupysSS', token, { httpOnly: false, secure: false, maxAge: 3600000, path: '/',sameSite:'None' });
 };
 
 module.exports = createToken;
