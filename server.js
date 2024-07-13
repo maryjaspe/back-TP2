@@ -37,8 +37,8 @@ app.post('/user/login', async (req, res) => {
     if (result.length > 0) {
       const contraseñaValida = await bcrypt.compare(contraseña, result[0].contraseña);
       if (contraseñaValida) {
-        createToken(result[0], res);
-        res.standardSend({ message: "login success", isLogged: true });
+        const token = createToken(result[0], res);
+        res.standardSend({ message: "login success", isLogged: true , token});
         return
       }
     }
@@ -65,11 +65,11 @@ app.post('/user/register', async (req, res) => {
 
   try {
     const data = await dbAdapter.executeQuery(query, [nombre, email, hashedPassword, direccion, telefono]);
-    createToken({
+    const token = createToken({
       id: data.insertId,
       email
     }, res);
-    res.standardSend({ message: "User created", isLogged: true });
+    res.standardSend({ message: "User created", isLogged: true, token });
   } catch (err) {
     if (err.code === 'ER_DUP_ENTRY') {
       res.standardSend(null, {

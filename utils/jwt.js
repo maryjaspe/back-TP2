@@ -10,6 +10,7 @@ const createToken = (user, res) => {
 
   const token = jwt.sign(usuarioParaToken, SECRET_KEY_JWT, { expiresIn: '1h' });
   res.cookie('pupysSS', token, { httpOnly: false, secure: IS_JWT_SECURE, maxAge: 3600000, path: '/',sameSite:'None' });
+  return token;
 };
 
 module.exports = createToken;
